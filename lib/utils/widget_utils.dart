@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_expense_manager/globals/globals.dart';
+import 'package:flutter_expense_manager/widgets/dialogs/color_picker_dialog.dart';
 
 Widget horizontalSpace([double size = 8.0]) {
   return SizedBox(width: size);
@@ -26,6 +27,22 @@ void showSnackBar(Widget child) {
           globalSnackbarKey.currentState?.hideCurrentSnackBar();
         },
       ),
+    ),
+  );
+}
+
+Future<Color?> showColorPicker(
+  BuildContext context, {
+  Color? initialColor,
+  void Function(Color)? onValueChanged,
+  void Function(Color)? onSubmit,
+}) {
+  return showDialog<Color?>(
+    context: context,
+    builder: (context) => ColorPickerDialog(
+      initialColor: initialColor,
+      onValueChanged: onValueChanged,
+      onSubmit: onSubmit,
     ),
   );
 }
