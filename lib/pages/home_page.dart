@@ -1,5 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_expense_manager/models/expense_model.dart';
+import 'package:flutter_expense_manager/pages/analysis_page.dart';
+import 'package:flutter_expense_manager/widgets/dialogs/add_breakpoint_dialog.dart';
+import 'package:flutter_expense_manager/widgets/dialogs/common_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_expense_manager/widgets/custom_page_route.dart';
 import 'package:flutter_expense_manager/pages/transaction_page.dart';
@@ -160,7 +164,165 @@ class _HomePageState extends State<HomePage> {
               ),
 
             verticalSpace(16),
+            // Analysis
+            const Text("Analysis"),
+            verticalSpace(16),
+            Row(
+              children: const [
+                Expanded(
+                  child: AnalysisCard(
+                    analysisSpan: DateSpan.day,
+                    icon: Icon(Icons.calendar_view_day, size: 30),
+                    analysisName: "Daily Analysis",
+                  ),
+                ),
+                Expanded(
+                  child: AnalysisCard(
+                    analysisSpan: DateSpan.week,
+                    icon: Icon(Icons.calendar_view_week, size: 30),
+                    analysisName: "Week Analysis",
+                  ),
+                ),
+                Expanded(
+                  child: AnalysisCard(
+                    analysisSpan: DateSpan.month,
+                    icon: Icon(Icons.calendar_view_month, size: 30),
+                    analysisName: "Month Analysis",
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                const Expanded(
+                  child: AnalysisCard(
+                    analysisSpan: DateSpan.year,
+                    icon: Icon(Icons.calendar_today, size: 30),
+                    analysisName: "Year Analysis",
+                  ),
+                ),
+                Expanded(
+                  child: AnalysisCard(
+                    icon: const Icon(Icons.analytics_outlined, size: 30),
+                    analysisName: "Custom Analysis",
+                    onTap: () async {
+                      var d = await showDateRangePicker(
+                        context: context,
+                        firstDate: DateTime(DateTime.now().year - 100),
+                        lastDate: DateTime.now(),
+                        helpText: "Select Date Range",
+                        confirmText: "Select",
+                        saveText: "Select",
+                      );
+                      if (d != null) {
+                        DateTime end;
+
+                        end = d.end
+                            .add(const Duration(days: 1))
+                            .subtract(const Duration(microseconds: 1));
+
+                        DateTimeRange dateRange =
+                            DateTimeRange(start: d.start, end: end);
+
+                        Navigator.push(
+                          context,
+                          CustomPageRoute.fromDown(
+                            child: AnalysisPage(
+                              sampleDate: DateTime.now(),
+                              dateRange: dateRange,
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: AnalysisCard(
+                    icon:
+                        const Icon(Icons.insert_page_break_outlined, size: 30),
+                    analysisName: "Breakpoint Analysis",
+                    onTap: provider.breakpoints.isEmpty
+                        ? () async {
+                            var breakpoint = await showDialog<BreakPoint>(
+                              context: context,
+                              builder: (context) {
+                                return commonDialog(
+                                    child: const AddBreakpointDialog());
+                              },
+                            );
+                            if (breakpoint != null) {
+                              await provider.addBreakPoint(breakpoint);
+                            }
+                          }
+                        : () {
+                            Navigator.push(
+                              context,
+                              CustomPageRoute.fromDown(
+                                child: AnalysisPage(
+                                  sampleDate: DateTime.now(),
+                                  isBreakpoint: true,
+                                ),
+                              ),
+                            );
+                          },
+                  ),
+                ),
+              ],
+            ),
+            verticalSpace(16),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class AnalysisCard extends StatelessWidget {
+  const AnalysisCard({
+    Key? key,
+    this.analysisSpan,
+    required this.icon,
+    required this.analysisName,
+    this.dateRange,
+    this.onTap,
+  }) : super(key: key);
+
+  final DateSpan? analysisSpan;
+  final Widget icon;
+  final String analysisName;
+  final DateTimeRange? dateRange;
+  final Function()? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      clipBehavior: Clip.hardEdge,
+      child: InkWell(
+        onTap: onTap ??
+            () {
+              Navigator.push(
+                context,
+                CustomPageRoute.fromDown(
+                  child: AnalysisPage(
+                    sampleDate: DateTime.now(),
+                    analysisSpan: analysisSpan ?? DateSpan.day,
+                  ),
+                ),
+              );
+            },
+        child: SizedBox(
+          height: 100,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              icon,
+              Text(
+                analysisName,
+                textAlign: TextAlign.center,
+              )
+            ],
+          ),
         ),
       ),
     );
