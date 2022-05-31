@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_expense_manager/app_layout.dart';
 import 'package:flutter_expense_manager/globals/themes.dart';
+import 'package:flutter_expense_manager/providers/app_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,11 +14,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Expense Manager',
-      debugShowCheckedModeBanner: false,
-      theme: darkTheme,
-      home: const AppLayout(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AppProvider>(
+          create: (context) => AppProvider(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Expense Manager',
+        debugShowCheckedModeBanner: false,
+        theme: darkTheme,
+        home: const AppLayout(),
+      ),
     );
   }
 }

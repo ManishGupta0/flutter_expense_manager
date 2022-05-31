@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_expense_manager/classes/navigation_item.dart';
 import 'package:flutter_expense_manager/pages/home_page.dart';
 import 'package:flutter_expense_manager/pages/more_page.dart';
 import 'package:flutter_expense_manager/pages/statement_page.dart';
+import 'package:flutter_expense_manager/providers/app_provider.dart';
 
 class AppLayout extends StatefulWidget {
   const AppLayout({Key? key}) : super(key: key);
@@ -12,8 +14,6 @@ class AppLayout extends StatefulWidget {
 }
 
 class _AppLayoutState extends State<AppLayout> {
-  int _currentPageIndex = 0;
-
   final List<NavigationItem> _navigationItems = const [
     NavigationItem(
       label: 'Home',
@@ -34,28 +34,30 @@ class _AppLayoutState extends State<AppLayout> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Divider(
-            height: 0,
-          ),
-          BottomNavigationBar(
-            currentIndex: _currentPageIndex,
-            type: BottomNavigationBarType.fixed,
-            items: [
-              ..._navigationItems.map(
-                (e) => BottomNavigationBarItem(icon: e.icon, label: e.label),
-              ),
-            ],
-            onTap: (index) => setState(() {
-              _currentPageIndex = index;
-            }),
-          ),
-        ],
+    return Consumer<AppProvider>(
+      builder: (_, provider, __) => Scaffold(
+        bottomNavigationBar: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Divider(
+              height: 0,
+            ),
+            BottomNavigationBar(
+              currentIndex: provider.model.appPage,
+              type: BottomNavigationBarType.fixed,
+              items: [
+                ..._navigationItems.map(
+                  (e) => BottomNavigationBarItem(icon: e.icon, label: e.label),
+                ),
+              ],
+              onTap: (index) => setState(() {
+                provider.updatePage(index);
+              }),
+            ),
+          ],
+        ),
+        body: _navigationItems.elementAt(provider.model.appPage).child,
       ),
-      body: _navigationItems.elementAt(_currentPageIndex).child,
     );
   }
 }
