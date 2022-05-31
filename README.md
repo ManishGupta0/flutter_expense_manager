@@ -1,16 +1,20 @@
-# flutter_expense_manager
+# Expense Manager
 
-A new Flutter project.
+Personal Expense Manager App build with Flutter
 
-## Getting Started
+## App Preview
 
-This project is a starting point for a Flutter application.
+![Add Transaction](/docs/screenshots/add_transaction.jpg "Add Transaction")
+![Home Page](/docs/screenshots/home_page.jpg "Home Page")
+![Statement Page](/docs/screenshots/statement_page.jpg "Statement Page")
+![Statement FIlter](/docs/screenshots/statement_filter.jpg "Statement Filter")
+![Settings](/docs/screenshots/settings_page.jpg "Settings")
+![Analysis Page Line Chart](/docs/screenshots/analysis_balance_chart.jpg "Analysis Page Line Chart")
+![Analysis Page Pie Chart 1](/docs/screenshots/analysis_pie_chart.jpg "Analysis Page Pie Chart 1")
+![Analysis Page Pie Chart 2](/docs/screenshots/analysis_pie_chart_2.jpg "Analysis Page Pie Chart 2")
+![Add Categories](/docs/screenshots/categories_page.jpg "Add Categories")
+![Date Time Format](/docs/screenshots/date_time_page.jpg "Date Time Format")
 
-A few resources to get you started if this is your first Flutter project:
+## TODO
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Budget
