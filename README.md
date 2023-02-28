@@ -2,6 +2,21 @@
 
 Personal Expense Manager App build with Flutter
 
+## Getting Started
+#### 1. Setup [Flutter](https://flutter.dev/docs/get-started/install)
+#### 2. Clone the repo
+
+```bash
+git clone https://github.com/ManishGupta0/flutter_expense_manager.git
+cd flutter_expense_manager/
+```
+
+#### 3. Run the following commands to run your app:
+```bash
+  flutter pub get
+  flutter run
+```
+
 ## App Preview
 
 ![Add Transaction](/docs/screenshots/add_transaction.jpg "Add Transaction")
